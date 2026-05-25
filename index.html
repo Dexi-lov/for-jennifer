@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>For You 💖</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #0b0c10;
+            color: #c5c6c7;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            overflow: hidden;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        #message-container {
+            font-size: 1.8rem;
+            padding: 20px;
+            max-width: 80%;
+            z-index: 10;
+            line-height: 1.5;
+            text-shadow: 0 0 10px rgba(102, 252, 241, 0.5);
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 2rem;
+            color: #ff4b5c;
+            animation: floatUp 2s ease-out forwards;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        .star {
+            position: absolute;
+            background-color: white;
+            border-radius: 50%;
+            opacity: 0.5;
+            animation: twinkle linear infinite;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes floatUp {
+            0% { opacity: 1; transform: translateY(0) scale(1); }
+            100% { opacity: 0; transform: translateY(-100px) scale(1.5); }
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0.2; }
+            50% { opacity: 0.8; }
+            100% { opacity: 0.2; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="message-container">Tap the screen... ✨</div>
+
+    <script>
+        // Mensajes personalizados en inglés para Jennifer
+        const messages = [
+            "For my beautiful Jennifer,",
+            "I wanted to make something special just for you.",
+            "Every day with you is a wonderful adventure.",
+            "I am so proud of you and how hard you are learning.",
+            "Your English is getting amazing! Keep going!",
+            "Never stop chasing your dreams...",
+            "...because I will always be here supporting you.",
+            "I love you more than words or code can say. 💖",
+            "You are my favorite person in the whole world.",
+            "Tap again to read this from the start!"
+        ];
+
+        let currentIndex = -1;
+        const container = document.getElementById('message-container');
+
+        // Función para cambiar el mensaje
+        function nextMessage() {
+            currentIndex++;
+            if (currentIndex >= messages.length) {
+                currentIndex = 0; // Reinicia el ciclo
+            }
+            
+            // Efecto de transición
+            container.style.animation = 'none';
+            setTimeout(() => {
+                container.textContent = messages[currentIndex];
+                container.style.animation = 'fadeIn 1s ease-in-out';
+            }, 50);
+        }
+
+        // Función para crear corazones donde ella toque
+        function createHeart(x, y) {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerHTML = '💖';
+            heart.style.left = `${x}px`;
+            heart.style.top = `${y}px`;
+            document.body.appendChild(heart);
+
+            // Limpiar el corazón después de la animación
+            setTimeout(() => {
+                heart.remove();
+            }, 2000);
+        }
+
+        // Función para crear el fondo estrellado
+        function createStars() {
+            for (let i = 0; i < 50; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+                star.style.width = `${Math.random() * 3}px`;
+                star.style.height = star.style.width;
+                star.style.left = `${Math.random() * 100}vw`;
+                star.style.top = `${Math.random() * 100}vh`;
+                star.style.animationDuration = `${Math.random() * 3 + 2}s`;
+                document.body.appendChild(star);
+            }
+        }
+
+        // Eventos de clic o toque en la pantalla
+        document.body.addEventListener('click', (e) => {
+            nextMessage();
+            createHeart(e.clientX, e.clientY);
+        });
+
+        // Iniciar las estrellas
+        createStars();
+    </script>
+</body>
+</html>
