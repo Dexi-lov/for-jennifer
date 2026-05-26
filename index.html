@@ -24,10 +24,10 @@
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
-            overflow-x: hidden; /* Bloquea cualquier scroll horizontal en la página */
+            overflow-x: hidden;
             user-select: none;
             transition: background 1.5s ease-in-out;
-            zoom: 125%; /* Zoom general de la página solicitado */
+            zoom: 125%; 
         }
 
         /* --- MODO ROMÁNTICO (EFECTOS DE ALTO IMPACTO) --- */
@@ -162,11 +162,11 @@
 
         /* --- Letras y Scroll --- */
         .lyrics-container {
-            width: 95%; /* Ligeramente más ancho */
+            width: 95%; 
             max-width: 600px;
-            height: 380px; /* Mucho más grande verticalmente */
+            height: 380px; 
             margin-top: 15px;
-            overflow: hidden; /* CERO BARRAS DE SCROLL estrictamente */
+            overflow: hidden; 
             position: relative; 
             text-align: center;
             mask-image: linear-gradient(to bottom, transparent 0%, white 15%, white 85%, transparent 100%);
@@ -176,7 +176,7 @@
         
         .lyrics-wrapper {
             position: absolute; width: 100%; 
-            top: 150px; /* Ajuste para iniciar centrado en la nueva caja de 380px */
+            top: 150px; 
             transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
         }
         
@@ -299,7 +299,7 @@
             }
         }
 
-        // --- BASE DE DATOS DE PLAYLIST (MANUAL Y EXACTA) ---
+        // --- BASE DE DATOS DE PLAYLIST (RUTAS CORREGIDAS PARA GITHUB) ---
         const playlist = [
             { 
                 title: "her", 
@@ -434,7 +434,6 @@
                 els.lyricsWrapper.appendChild(lineElement);
             });
             
-            // Alineación inicial del texto
             els.lyricsWrapper.style.transform = `translateY(150px)`;
         }
 
@@ -449,7 +448,6 @@
             if (activeLine) {
                 activeLine.classList.add('active');
                 
-                // ACTUALIZADO PARA CONCUERDAR CON CSS (.lyrics-container height = 380)
                 const containerHeight = 380;
                 const scrollPosition = (containerHeight / 2) - activeLine.offsetTop - (activeLine.offsetHeight / 2);
                 els.lyricsWrapper.style.transform = `translateY(${scrollPosition}px)`;
@@ -520,6 +518,7 @@
             }
         });
 
+        // --- MANEJO DE RED Y LATENCIA ---
         async function togglePlay() {
             if (state.isPlaying) {
                 els.audio.pause();
@@ -527,11 +526,16 @@
                 state.isPlaying = false;
             } else {
                 try {
+                    els.playBtn.textContent = '⏳';
                     await els.audio.play();
                     els.playBtn.textContent = '⏸';
                     state.isPlaying = true;
                 } catch (error) {
-                    console.log("Reproducción interrumpida.");
+                    els.playBtn.textContent = '▶';
+                    console.error("Error reproduciendo audio:", error);
+                    if (error.name === 'NotSupportedError') {
+                        alert("Error de GitHub: No se encuentra el archivo .mp3. Asegúrate de que la carpeta se llame 'songs' exactamente en minúsculas en tu repositorio.");
+                    }
                 }
             }
         }
@@ -544,8 +548,16 @@
             loadSong(nextIndex);
             
             if (state.isPlaying) {
-                try { await els.audio.play(); } 
-                catch (error) { console.log("Audio bloqueado intencionalmente."); }
+                try { 
+                    els.playBtn.textContent = '⏳';
+                    await els.audio.play(); 
+                    els.playBtn.textContent = '⏸';
+                } 
+                catch (error) { 
+                    els.playBtn.textContent = '▶';
+                    state.isPlaying = false;
+                    console.error("Audio bloqueado:", error); 
+                }
             }
         }
 
@@ -554,6 +566,7 @@
         els.prevBtn.addEventListener('click', () => changeTrack(-1));
         els.audio.addEventListener('ended', () => changeTrack(1));
 
+        // Inicialización correcta
         createStars();
         loadSong(0);
     </script>
