@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>For Jennifer - 19 Days 💖</title>
+    <style>
+        :root {
+            /* Paleta de Colores de la Habitación */
+            --wall-color: #3b2f4a;
+            --floor-color: #21192e;
+            --wood-dark: #1e1525;
+            --wood-light: #3d2b45;
+            --bed-base: #2a3b5c;
+            --blanket: #e0d8e6;
+            --sunset-top: #2b1055;
+            --sunset-mid: #7597de;
+            --sunset-bot: #f68989;
+            
+            /* Luces */
+            --neon-pink: #ff4b72;
+            --monitor-glow: rgba(120, 200, 255, 0.4);
+            --lamp-glow: rgba(255, 180, 80, 0.6);
+            --night-shadow: rgba(8, 8, 15, 0.75);
+            
+            --text-main: #f2f2f7;
+        }
+
+        body, html {
+            margin: 0; padding: 0; width: 100%; height: 100%;
+            background-color: #050505; color: var(--text-main);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden; user-select: none;
+            display: flex; justify-content: center; align-items: center;
+        }
+
+        /* --- SISTEMA DE CÁMARA --- */
+        .camera-rig {
+            width: 100%; height: 100%; display: flex;
+            justify-content: center; align-items: center;
+            animation: cameraBreathing 6s infinite alternate ease-in-out;
+            transition: transform 4s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        @keyframes cameraBreathing {
+            0% { transform: scale(1) translateY(0); }
+            100% { transform: scale(1.02) translateY(-2px); }
+        }
+
+        /* --- LA HABITACIÓN (CSS ART) --- */
+        .room {
+            position: relative; width: 95vw; max-width: 900px; aspect-ratio: 16 / 9;
+            background: var(--wall-color);
+            border-radius: 12px; box-shadow: 0 0 50px rgba(0,0,0,0.9);
+            overflow: hidden;
+        }
+
+        /* El Suelo */
+        .floor {
+            position: absolute; bottom: 0; left: 0; width: 100%; height: 25%;
+            background: var(--floor-color); border-top: 5px solid var(--wood-dark);
+            z-index: 1;
+        }
+
+        /* --- MUEBLES Y OBJETOS --- */
+        
+        /* 1. La Ventana */
+        .window-frame {
+            position: absolute; bottom: 35%; left: 8%; width: 22%; height: 45%;
+            background: var(--wood-dark); border: 4px solid #110c17;
+            border-radius: 4px; overflow: hidden; z-index: 2;
+            cursor: pointer; transition: transform 0.2s;
+        }
+        .window-frame:hover { transform: scale(1.02); }
+        
+        .sky {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to bottom, var(--sunset-top), var(--sunset-mid), var(--sunset-bot));
+        }
+        
+        .city-skyline {
+            position: absolute; bottom: 0; left: 0; width: 100%; height: 30%;
+            background: #110a1f; 
+            box-shadow: 20px -20px 0 #110a1f, 50px -10px 0 #110a1f, 80px -30px 0 #110a1f, 120px -15px 0 #110a1f;
+        }
+
+        /* 2. La Cama */
+        .bed {
+            position: absolute; bottom: 25%; left: 32%; width: 28%; height: 15%;
+            background: var(--bed-base); border-radius: 8px 8px 0 0; z-index: 3;
+        }
+        .blanket {
+            position: absolute; bottom: 0; right: -5%; width: 70%; height: 110%;
+            background: var(--blanket); border-radius: 10px 0 0 0;
+            border-left: 4px solid #bbaec4;
+        }
+        .pillow {
+            position: absolute; bottom: 110%; left: 10%; width: 35%; height: 40%;
+            background: #625575; border-radius: 10px; border-bottom: 2px solid rgba(0,0,0,0.2);
+        }
+
+        /* 3. El Escritorio */
+        .desk {
+            position: absolute; bottom: 25%; right: 10%; width: 22%; height: 20%;
+            background: var(--wood-light); border-top: 6px solid var(--wood-dark);
+            border-left: 4px solid var(--wood-dark); z-index: 3;
+        }
+        .desk-leg {
+            position: absolute; bottom: -125%; right: 10%; width: 10%; height: 125%;
+            background: var(--wood-dark);
+        }
+
+        /* 4. El Monitor de PC */
+        .monitor {
+            position: absolute; bottom: 110%; left: 20%; width: 50%; height: 70%;
+            background: #0b0c10; border: 3px solid #1f2833; border-radius: 4px;
+            box-shadow: 0 0 25px var(--monitor-glow);
+            animation: screenFlicker 4s infinite alternate;
+        }
+        .monitor-stand {
+            position: absolute; bottom: 100%; left: 40%; width: 10%; height: 10%; background: #1f2833;
+        }
+
+        /* 5. Objetos Pequeños (Interactivos) */
+        .interactable { cursor: pointer; transition: transform 0.2s, filter 0.2s; z-index: 10; }
+        .interactable:hover { transform: scale(1.1) translateY(-5px); filter: brightness(1.3); }
+
+        .phone {
+            position: absolute; bottom: 110%; left: 75%; width: 15%; height: 12%;
+            background: #111; border: 2px solid #444; border-radius: 4px;
+            transform: rotate(-15deg); box-shadow: 0 0 10px rgba(255,255,255,0.2);
+        }
+        
+        .mug {
+            position: absolute; bottom: 110%; left: 5%; width: 10%; height: 25%;
+            background: #e2d1c3; border-radius: 2px 2px 8px 8px;
+        }
+        .mug::after {
+            content:''; position:absolute; top:20%; right:-40%; width:40%; height:50%;
+            border: 2px solid #e2d1c3; border-radius: 50%; border-left: none;
+        }
+
+        .headphones {
+            position: absolute; bottom: 15%; left: -10%; width: 30%; height: 40%;
+            border: 4px solid #333; border-radius: 50% 50% 0 0; border-bottom: none;
+        }
+        .headphones::before, .headphones::after {
+            content:''; position:absolute; bottom:-10%; width:30%; height:40%;
+            background: #222; border-radius: 4px;
+        }
+        .headphones::before { left: -15%; }
+        .headphones::after { right: -15%; }
+
+        /* 6. Decoración de Pared */
+        .polaroids {
+            position: absolute; top: 20%; left: 40%; width: 15%; height: 25%;
+            display: flex; gap: 10px;
+        }
+        .photo {
+            width: 30px; height: 35px; background: white; padding: 3px;
+            box-sizing: border-box; box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+        }
+        .photo::after { content:''; display:block; width:100%; height:75%; background:#443b59; }
+        .photo:nth-child(1) { transform: rotate(-5deg); }
+        .photo:nth-child(2) { transform: rotate(8deg) translateY(10px); }
+
+        .neon-heart {
+            position: absolute; top: 15%; left: 15%; font-size: 2rem; color: transparent;
+            text-shadow: 0 0 15px var(--neon-pink), 0 0 30px var(--neon-pink);
+            animation: neonPulse 2s infinite alternate;
+        }
+
+        /* --- EFECTOS AMBIENTALES Y LUZ --- */
+        .atmosphere {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(135deg, rgba(255,100,50,0.1), rgba(0,0,0,0));
+            pointer-events: none; z-index: 20; transition: background 8s ease;
+        }
+        .room.night-mode .atmosphere { background: var(--night-shadow); }
+        
+        .lamp-light {
+            position: absolute; bottom: 140%; left: 85%; width: 10px; height: 20px;
+            background: #ffcc66; border-radius: 50%;
+            box-shadow: 0 0 40px 20px var(--lamp-glow);
+            opacity: 0; transition: opacity 4s ease; z-index: 15;
+        }
+        .room.night-mode .lamp-light { opacity: 1; }
+
+        @keyframes screenFlicker { 0%, 100% { opacity: 0.8; } 50% { opacity: 1; } }
+        @keyframes neonPulse { 0% { text-shadow: 0 0 10px var(--neon-pink); } 100% { text-shadow: 0 0 25px var(--neon-pink), 0 0 40px var(--neon-pink); } }
+
+        /* Lluvia JS */
+        .drop { position: absolute; background: rgba(255,255,255,0.4); animation: rainFall linear infinite; }
+        @keyframes rainFall { 0% { transform: translateY(-10px) translateX(0) rotate(15deg); opacity: 0; } 20% { opacity: 1; } 100% { transform: translateY(150px) translateX(-20px) rotate(15deg); opacity: 0; } }
+
+        /* --- WIDGET DE RELOJ DUAL --- */
+        .time-widget {
+            position: absolute; top: 20px; left: 20px;
+            background: rgba(15, 10, 25, 0.6);
+            border: 1px solid rgba(255, 75, 114, 0.2);
+            padding: 10px 15px; border-radius: 12px;
+            backdrop-filter: blur(5px);
+            display: flex; flex-direction: column; gap: 8px;
+            z-index: 50; opacity: 0; pointer-events: none;
+            transition: opacity 2s ease;
+        }
+        .time-widget.visible { opacity: 1; }
+        
+        .time-row { display: flex; justify-content: space-between; align-items: center; gap: 20px; }
+        .time-row .location { 
+            font-size: 0.75rem; color: var(--neon-pink); 
+            text-transform: uppercase; font-weight: bold; letter-spacing: 1px; 
+        }
+        .time-row .time { 
+            font-size: 0.9rem; font-family: 'Courier New', monospace; color: #fff; 
+        }
+
+        /* --- UI & INTERFAZ --- */
+        .overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: #000; z-index: 100; display: flex;
+            justify-content: center; align-items: center; flex-direction: column;
+            transition: opacity 2s ease;
+        }
+        .overlay-text { font-size: 1.2rem; font-weight: 300; letter-spacing: 1px; opacity: 0; text-align: center; max-width: 80%; line-height: 1.6; transition: opacity 2s ease; }
+        .continue-hint { margin-top: 30px; font-size: 0.8rem; opacity: 0; text-transform: uppercase; letter-spacing: 2px; color: #888; cursor: pointer; transition: opacity 1s ease; }
+        
+        .message-toast {
+            position: absolute; bottom: 15%; left: 50%; transform: translateX(-50%);
+            background: rgba(20, 15, 30, 0.9); border: 1px solid rgba(255,255,255,0.1);
+            padding: 15px 30px; border-radius: 30px; backdrop-filter: blur(5px);
+            font-size: 1rem; color: #fff; text-align: center; z-index: 50;
+            opacity: 0; pointer-events: none; transition: all 0.5s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5); font-style: italic;
+        }
+        .message-toast.active { opacity: 1; transform: translate(-50%, -10px); }
+
+        .hidden { display: none !important; }
+        .visited { filter: brightness(0.5) !important; animation: none !important; }
+
+        /* Icono flotante indicador */
+        .click-indicator {
+            position: absolute; top: -15px; left: 50%; transform: translateX(-50%);
+            width: 8px; height: 8px; background: white; border-radius: 50%;
+            box-shadow: 0 0 10px white; animation: bounce 1s infinite alternate; pointer-events: none;
+        }
+        @keyframes bounce { from { transform: translate(-50%, 0); } to { transform: translate(-50%, -5px); } }
+    </style>
+</head>
+<body>
+
+    <div class="overlay" id="intro-screen">
+        <div class="overlay-text" id="intro-text">
+            I made a small place to keep the feelings you gave me.
+        </div>
+        <div class="continue-hint" id="intro-hint">[ click to enter ]</div>
+    </div>
+
+    <div class="time-widget" id="time-widget">
+        <div class="time-row">
+            <span class="location">Quito</span>
+            <span class="time" id="clock-ec">--:--</span>
+        </div>
+        <div class="time-row">
+            <span class="location">Guate</span>
+            <span class="time" id="clock-gt">--:--</span>
+        </div>
+    </div>
+
+    <div class="camera-rig" id="camera">
+        <div class="room" id="room">
+            <div class="floor"></div>
+            <div class="atmosphere"></div>
+            <div class="lamp-light"></div>
+
+            <div class="neon-heart">💖</div>
+
+            <div class="window-frame interactable" id="obj-window" data-msg="you make even quiet days feel special">
+                <div class="sky"></div>
+                <div class="city-skyline"></div>
+                <div id="rain-container" style="position:absolute; width:100%; height:100%; top:0; left:0;"></div>
+                <div class="click-indicator"></div>
+            </div>
+
+            <div class="bed">
+                <div class="pillow"></div>
+                <div class="blanket"></div>
+            </div>
+
+            <div class="polaroids interactable" id="obj-photos" data-msg="19 days… but so many moments already">
+                <div class="photo"></div>
+                <div class="photo"></div>
+                <div class="click-indicator" style="top: -20px;"></div>
+            </div>
+
+            <div class="desk">
+                <div class="desk-leg"></div>
+                
+                <div class="monitor"></div>
+                <div class="monitor-stand"></div>
+
+                <div class="phone interactable" id="obj-phone" data-msg="i still reread some of our conversations">
+                    <div class="click-indicator"></div>
+                </div>
+                <div class="mug interactable" id="obj-mug" data-msg="i didn’t know talking to someone could feel this comforting">
+                    <div class="click-indicator"></div>
+                </div>
+                <div class="headphones interactable" id="obj-headphones" data-msg="this song started reminding me of you">
+                    <div class="click-indicator"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="message-toast" id="toast"></div>
+
+    <div class="overlay hidden" id="final-screen" style="opacity: 0;">
+        <div class="overlay-text" id="final-text" style="font-size: 1.4rem; font-style: italic;">
+            it’s only been 19 days...<br><br>but you already feel important to me.
+        </div>
+    </div>
+
+    <audio id="bg-music" src="./songs/lofi.mp3" loop></audio>
+    <audio id="bg-rain" src="./songs/rain.mp3" loop></audio>
+
+    <script>
+        // --- RELOJ DUAL ZONAS HORARIAS ---
+        function updateDualClock() {
+            // Hora en Ecuador (Quito)
+            const optionsEc = { timeZone: 'America/Guayaquil', hour: '2-digit', minute: '2-digit', hour12: true };
+            document.getElementById('clock-ec').textContent = new Intl.DateTimeFormat('en-US', optionsEc).format(new Date());
+
+            // Hora en Guatemala
+            const optionsGt = { timeZone: 'America/Guatemala', hour: '2-digit', minute: '2-digit', hour12: true };
+            document.getElementById('clock-gt').textContent = new Intl.DateTimeFormat('en-US', optionsGt).format(new Date());
+        }
+        setInterval(updateDualClock, 1000);
+        updateDualClock();
+
+        // --- SISTEMA DE LLUVIA JS ---
+        function startRain() {
+            const rainContainer = document.getElementById('rain-container');
+            for(let i=0; i<30; i++) {
+                let drop = document.createElement('div');
+                drop.className = 'drop';
+                drop.style.left = `${Math.random() * 100}%`;
+                drop.style.width = '1px';
+                drop.style.height = `${Math.random() * 15 + 5}px`;
+                drop.style.animationDuration = `${Math.random() * 0.5 + 0.4}s`;
+                drop.style.animationDelay = `${Math.random() * 2}s`;
+                rainContainer.appendChild(drop);
+            }
+        }
+
+        // --- LÓGICA DE APERTURA ---
+        const introScreen = document.getElementById('intro-screen');
+        const introText = document.getElementById('intro-text');
+        const introHint = document.getElementById('intro-hint');
+        const room = document.getElementById('room');
+        const timeWidget = document.getElementById('time-widget');
+        const music = document.getElementById('bg-music');
+        const rainSound = document.getElementById('bg-rain');
+
+        setTimeout(() => {
+            introText.style.opacity = '1';
+            setTimeout(() => { introHint.style.opacity = '1'; }, 2000);
+        }, 1000);
+
+        introScreen.addEventListener('click', () => {
+            introScreen.style.opacity = '0';
+            setTimeout(() => introScreen.classList.add('hidden'), 2000);
+            
+            // Mostrar widget de tiempo dual
+            timeWidget.classList.add('visible');
+
+            // Intentar reproducir audios
+            try {
+                music.volume = 0.3; rainSound.volume = 0.2;
+                music.play(); rainSound.play();
+            } catch(e) { console.log("Audio no cargado o bloqueado."); }
+
+            startRain();
+
+            // Transición a la noche (el cielo se oscurece y se encienden luces)
+            setTimeout(() => {
+                room.classList.add('night-mode');
+            }, 6000);
+        });
+
+        // --- INTERACTIVIDAD Y MENSAJES ---
+        const items = document.querySelectorAll('.interactable');
+        const toast = document.getElementById('toast');
+        let toastTimer;
+        const clickedItems = new Set();
+
+        items.forEach(item => {
+            item.addEventListener('click', function() {
+                // Remover el punto indicador flotante
+                const indicator = this.querySelector('.click-indicator');
+                if(indicator) indicator.remove();
+
+                const msg = this.getAttribute('data-msg');
+                toast.textContent = msg;
+                toast.classList.add('active');
+                
+                this.classList.add('visited');
+                clickedItems.add(this.id);
+
+                clearTimeout(toastTimer);
+                toastTimer = setTimeout(() => {
+                    toast.classList.remove('active');
+                    checkEnding();
+                }, 4000);
+            });
+        });
+
+        // --- SECUENCIA DEL FINAL ---
+        function checkEnding() {
+            if(clickedItems.size === items.length) {
+                setTimeout(startEndingSequence, 1500);
+            }
+        }
+
+        function startEndingSequence() {
+            const camera = document.getElementById('camera');
+            const finalScreen = document.getElementById('final-screen');
+            const finalText = document.getElementById('final-text');
+
+            // Apagar UI
+            timeWidget.style.opacity = '0';
+
+            // Zoom cinemático hacia la ventana
+            camera.style.transformOrigin = "20% 50%"; 
+            camera.style.transform = "scale(2.2)";
+
+            // Apagar música gradualmente
+            let audioFade = setInterval(() => {
+                if (music.volume > 0.02) music.volume -= 0.02;
+                if (rainSound.volume > 0.02) rainSound.volume -= 0.02;
+                else clearInterval(audioFade);
+            }, 300);
+
+            // Pantalla Negra y Mensaje Final
+            setTimeout(() => {
+                finalScreen.classList.remove('hidden');
+                void finalScreen.offsetWidth; // Trigger reflow
+                finalScreen.style.opacity = '1';
+
+                setTimeout(() => {
+                    finalText.style.opacity = '1';
+                }, 2500);
+            }, 4000);
+        }
+    </script>
+</body>
+</html>
